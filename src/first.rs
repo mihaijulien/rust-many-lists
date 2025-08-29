@@ -28,4 +28,25 @@ impl List {
         self.head = Link::More(new_node);
     }
 
+
+    // Check if the list is empty.
+    // If it's empty, just return None
+    // If it's not empty
+    //     remove the head of the list
+    //     remove its elem
+    //     replace the list's head with its next
+    //     return Some(elem)
+    pub fn pop(&mut self) -> Option<i32> {
+        match  mem::replace(&mut self.head, Link::Empty) {
+            Link::Empty => {
+                result = None;
+            }
+            Link::More(node) => {
+                result = Some(node.elem);
+                self.head = node.next;
+            }
+        };
+        result
+    }
+
 }
