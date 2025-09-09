@@ -39,6 +39,7 @@ impl List {
     //     replace the list's head with its next
     //     return Some(elem)
     pub fn pop(&mut self) -> Option<i32> {
+        let result;
         match  mem::replace(&mut self.head, Link::Empty) {
             Link::Empty => {
                 result = None;
@@ -50,17 +51,16 @@ impl List {
         };
         result
     }
+}
 
-    impl Drop for List {
-        fn drop(&mut self) {
-            let mut cur_link = mem::replace(&mut self.head, Link::Empty);
+impl Drop for List {
+    fn drop(&mut self) {
+        let mut cur_link = mem::replace(&mut self.head, Link::Empty);
 
-            while let Link::More(mut boxed_node) = cur_link {
-                cur_link = mem::replace(&mut boxed_node.next, Link::Empty);
-            }
+        while let Link::More(mut boxed_node) = cur_link {
+            cur_link = mem::replace(&mut boxed_node.next, Link::Empty);
         }
     }
-
 }
 
 mod test {
